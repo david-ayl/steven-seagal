@@ -1,0 +1,17 @@
+{
+  "name": "steven-seagal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "website-scraper": "^3.3.5"
+  },
+  "devDependencies": {
+    "jsdom": "^11.12.0"
+  }
+}
