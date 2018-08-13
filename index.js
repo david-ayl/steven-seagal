@@ -4,7 +4,8 @@ https://www.npmjs.com/package/website-scraper#sources
 */
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
-const scrape = require('website-scraper');
+const scrape = require("website-scraper");
+const args = require("minimist")(process.argv.slice(2));
 
 const dom = new JSDOM(``, {
   url: "https://example.org/",
@@ -17,17 +18,17 @@ const dom = new JSDOM(``, {
 
 
 var options = {
-  urls: ['https://www.marieclaire.fr/ou-etait-harvey-weinstein-pendant-sept-mois,1266358.asp'],
-  directory: './websites/',
+  urls: [args.u],
+  directory: "./websites/" + args.d,
   sources: [
-    { selector: 'img', attr: 'src' },
-    { selector: 'link[rel="stylesheet"]', attr: 'href'}
+    { selector: "img", attr: "src" },
+    { selector: "link[rel='stylesheet']", attr: "href"}
   ]
 };
 
 // with promise
 scrape(options).then((result) => {
-  console.log('success!');
+  console.log("success!");
   console.log(dom.window.document.createElement("div"));
 }).catch((err) => {
   console.log("error :(", err);
