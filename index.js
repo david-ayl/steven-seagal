@@ -1,8 +1,9 @@
-const jsdom       = require("jsdom");
-const scrape      = require("website-scraper");
-const args        = require("minimist")(process.argv.slice(2));
-const fs          = require("fs-extra");
-const colors      = require("colors");
+const jsdom         = require("jsdom");
+const scrape        = require("website-scraper");
+const args          = require("minimist")(process.argv.slice(2));
+const fs            = require("fs-extra");
+const colors        = require("colors");
+const nameGenerator = require('./modules/folder_name_generator.js');
 
 const { JSDOM }   = jsdom;
 const dom = new JSDOM(``, {
@@ -14,10 +15,13 @@ const dom = new JSDOM(``, {
   storageQuota: 10000000
 });
 
+// Pupetter Chrome au lieu d'interaction avec Node
+// https://github.com/GoogleChrome/puppeteer
+
 
 var options = {
   urls: [args.u],
-  directory: "./websites/" + args.d,
+  directory: "./websites/" + nameGenerator(),
   sources: [
     { selector: "img", attr: "src" },
     { selector: "link[rel='stylesheet']", attr: "href"},
