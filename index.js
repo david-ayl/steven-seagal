@@ -18,6 +18,8 @@ https://www.wallstreet-online.de/
 
 */
 
+console.log("a");
+
 const { JSDOM }   = jsdom;
 const dom = new JSDOM(``, {
   url: "https://example.org/",
