@@ -1,40 +1,53 @@
-const scrape        = require('website-scraper');
-const nameGenerator = require('./modules/folder_name_generator.js');
-const args          = require('minimist')(process.argv.slice(2));
-const puppeteer     = require('puppeteer');
-
+const scrape        = require('website-scraper')
+const nameGenerator = require('./modules/folder_name_generator')
+const args          = require('minimist')(process.argv.slice(2))
+const puppeteer     = require('puppeteer')
+const html					= require('./modules/html')
 
 
 class PuppeteerPlugin {
 	apply(registerAction) {
-		let browser;
+		let browser
+
 		registerAction('beforeStart', async () => {
-			browser = await puppeteer.launch({headless: true});
-		});
-    registerAction('onResourceSaved', ({resource}) => {
-      //console.log(resource.url);
-    });
+
+			browser = await puppeteer.launch({headless: true})
+
+		})
+
 		registerAction('afterResponse', async ({response}) => {
-			const contentType = response.headers['content-type'];
-			const isHtml = contentType && contentType.split(';')[0] === 'text/html';
-			if (isHtml) {
-				const url = response.request.href;
-				const page = await browser.newPage();
-				await page.goto(url);
-				const content = await page.content();
-				await page.close();
-				//console.log(content)
-				return content;
+
+			if (response.headers['content-type'].indexOf('text/html') !== -1) {
+				const url = response.request.href
+				const page = await browser.newPage()
+				await page.goto(url)
+				const content = await page.content()
+				await page.close()
+
+				return {
+					body: response.body,
+					metadata: {
+						headers: response.headers
+					}
+				}
+
 			} else {
-				return response.body;
+
+				return {
+					body: response.body,
+					metadata: {
+						headers: response.headers
+					}
+				}
+
 			}
-		});
-		registerAction('afterFinish', () => browser.close());
+		})
+		registerAction('afterFinish', () => browser.close())
 	}
 }
 var assets = {
   dest_folder: nameGenerator(),
-};
+}
 
 var options = {
   urls: [args.u],
@@ -50,10 +63,13 @@ var options = {
 		{selector: 'link[rel="stylesheet"]', attr: 'href'}
 	],
   plugins: [ new PuppeteerPlugin() ]
-};
+}
 
 scrape(options).then((result) => {
-  console.log(`Saved destination folder => ${assets.dest_folder}`);
+
+	console.log(`saved in => ${assets.dest_folder}`);
+	html.modifier(assets.dest_folder)
+
 }).catch((err) => {
-  console.log('error :(', err);
-});
+  console.log('error :(', err)
+})
