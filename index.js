@@ -3,6 +3,12 @@ const nameGenerator = require('./modules/folder_name_generator')
 const args          = require('minimist')(process.argv.slice(2))
 const puppeteer     = require('puppeteer')
 const html					= require('./modules/html')
+const fs						= require('fs')
+
+
+var assets = {
+  dest_folder: nameGenerator(),
+}
 
 
 class PuppeteerPlugin {
@@ -13,16 +19,20 @@ class PuppeteerPlugin {
 
 			browser = await puppeteer.launch({headless: true})
 
+
 		})
 
 		registerAction('afterResponse', async ({response}) => {
 
+			const url = response.request.href
+			const page = await browser.newPage()
+			await page.goto(url)
+			await page.evaluate(_ => {
+				window.scrollBy(0, window.innerHeight);
+			})
+			const content = await page.content()
+
 			if (response.headers['content-type'].indexOf('text/html') !== -1) {
-				const url = response.request.href
-				const page = await browser.newPage()
-				await page.goto(url)
-				const content = await page.content()
-				await page.close()
 
 				return {
 					body: response.body,
@@ -45,9 +55,7 @@ class PuppeteerPlugin {
 		registerAction('afterFinish', () => browser.close())
 	}
 }
-var assets = {
-  dest_folder: nameGenerator(),
-}
+
 
 var options = {
   urls: [args.u],
@@ -56,7 +64,7 @@ var options = {
 		{directory: 'svg', extensions: ['.svg']},
 		{directory: 'img', extensions: ['.jpg', '.png', 'gif', 'jpeg', '']},
 		{directory: 'css', extensions: ['.css']},
-		{directory: 'fonts', extensions: ['.woff', '.woff2']}
+		{directory: 'fonts', extensions: ['.woff', '.woff2', '.ttf']}
 	],
 	sources: [
 		{selector: 'img', attr: 'src'},
