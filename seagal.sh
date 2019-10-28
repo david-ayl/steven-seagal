@@ -1,3 +1,4 @@
 #!/bin/bash
+# My first script
 
-node index.js -u $1
+echo "Hello World!"

@@ -1,20 +1,19 @@
 {
-  "name": "steven-seagal",
+  "name": "projet-seagal",
   "version": "1.0.0",
-  "description": "to steven seagalise stuffs",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "fs-extra": "^8.1.0",
     "minimist": "^1.2.0",
     "path": "^0.12.7",
-    "website-scraper": "^4.0.0"
-  },
-  "devDependencies": {
-    "jsdom": "^15.1.0",
-    "puppeteer": "^1.17.0"
+    "puppeteer": "^1.20.0",
+    "website-scraper": "^4.2.0"
   }
 }

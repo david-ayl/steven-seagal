@@ -1,0 +1,24 @@
+TODO
+
+Gestion CMP
+https://www.marieclaire.fr/,comment-ca-marche-le-layering,781807.asp
+
+Probleme captcha
+https://techcrunch.com/
+
+Gestion Mobile / desktop
+in progress, il faut config depuis la commande avec variable globale
+=> DONE
+
+Ajout logs
+
+Styled components :(
+https://www.vogue.fr
+=> hard avec ou sans JS, ça marche pas (même si sans JS au moins, j'ai le HTML)
+
+Limite scroll (ca peut etre long...)
+https://www.nicematin.com/
+in progress mais pas top: limitation absolue en pixels
+=> DONE (pour l'instant on scroll jusqu'au bout)
+
+Insertion script ayl
