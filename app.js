@@ -8,9 +8,7 @@ const dest = directory + new URL(argv._[0]).hostname + '/' + Date.now() + '/'
 
 let isMobile = argv.m
 
-let isHeadless = (() => {
-  return argv.h ? false : true
-})()
+let isHeadless = (() => argv.h ? false : true)()
 
 const PuppeteerPlugin = require('./assets/classes/puppeteerplugin-class')(dest, isMobile)
 
@@ -45,8 +43,7 @@ function getLocalPath(path) {
 */
 
 scrape(full_scraping).then((result) => {
-  console.log(chalk.green('=>'), `${full.summary.html.length} HTML files, ${full.summary.css.length} CSS files, ${full.summary.various.length} various assets have been successfully downloaded`);
-  console.log('the page has been saved')
+  console.log(chalk.green(`${full.summary.html.length} HTML,`), chalk.yellow(`${full.summary.css.length} CSS,`), 'and', chalk.cyan(`${full.summary.various.length} various assets`), 'have been successfully Seagalized')
 })
 
 //scrape(simple_scraping).then((result) => console.log('the page has been saved'))

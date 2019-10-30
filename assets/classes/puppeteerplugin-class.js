@@ -32,8 +32,13 @@ let PuppeteerPlugin = class {
 
     let absoluteDirectoryPath, loadedResources = []
 
+
     registerAction('beforeStart', async () => {
+      var spinner = ora('Launching the browser')
+      spinner.color = 'yellow'
+      spinner.start()
       this.browser = await puppeteer.launch(this.launchOptions);
+      spinner.succeed('browser launched')
 
     absoluteDirectoryPath = path.resolve(process.cwd(), directory)
 
@@ -53,12 +58,7 @@ let PuppeteerPlugin = class {
     registerAction('saveResource', async ({resource}) => {
       const filename = path.join(absoluteDirectoryPath, resource.getFilename())
       const text = resource.getText()
-      var encoding = 'binary'
-      if (resource.type === 'html') {
-      	encoding  = 'utf8';
-      }
-
-      await fs.outputFile(filename, text, { encoding: encoding })
+      await fs.outputFile(filename, text, { encoding: resource.type === 'html' ? 'utf8' : 'binary' })
       loadedResources.push(resource)
     })
 
@@ -84,7 +84,7 @@ let PuppeteerPlugin = class {
 
         await page.goto(url)
 
-        const spinner = ora(chalk.yellow('Scrolling down, please wait'))
+        var spinner = ora('Scrolling down, please wait')
         spinner.color = 'yellow'
         spinner.start()
         await autoScroll(page)
