@@ -1,6 +1,7 @@
 const scrape = require('website-scraper')
 const argv = require('minimist')(process.argv.slice(2))
-const URL = require('url').URL;
+const URL = require('url').URL
+const chalk = require('chalk')
 
 const directory = './website/'
 const dest = directory + new URL(argv._[0]).hostname + '/' + Date.now() + '/'
@@ -13,18 +14,22 @@ let isHeadless = (() => {
 
 const PuppeteerPlugin = require('./assets/classes/puppeteerplugin-class')(dest, isMobile)
 
+var full = new PuppeteerPlugin({ launchOptions: {
+   headless: isHeadless,
+   defaultViewport: null,
+   width: 1280,
+   height: 920,
+}})
+
+
+
 const full_scraping = {
    urls: argv._[0],
    sources: [
       { selector: 'img', attr: 'src' },
       { selector: 'link[rel="stylesheet"]', attr: 'href' },
    ],
-   plugins: [new PuppeteerPlugin({ launchOptions: {
-      headless: isHeadless,
-      defaultViewport: null,
-      width: 1280,
-      height: 920,
-   }})]
+   plugins: [full]
 }
 
 const simple_scraping = {
@@ -39,5 +44,9 @@ function getLocalPath(path) {
 }
 */
 
-scrape(full_scraping).then((result) => console.log('the page has been saved'))
+scrape(full_scraping).then((result) => {
+  console.log(chalk.green('=>'), `${full.summary.html.length} HTML files, ${full.summary.css.length} CSS files, ${full.summary.various.length} various assets have been successfully downloaded`);
+  console.log('the page has been saved')
+})
+
 //scrape(simple_scraping).then((result) => console.log('the page has been saved'))

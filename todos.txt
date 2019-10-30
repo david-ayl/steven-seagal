@@ -22,3 +22,9 @@ in progress mais pas top: limitation absolue en pixels
 => DONE (pour l'instant on scroll jusqu'au bout)
 
 Insertion script ayl
+
+
+
+URLS not working :
+http://www.news.de/promis/855755239/andrea-berg-in-den-charts-attackiert-lena-meyer-landrut-sagt-andrea-mit-neuem-album-kampf-an/1/
+Executions context was destoryed
