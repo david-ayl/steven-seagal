@@ -10,14 +10,25 @@ let isMobile = argv.m
 
 let isHeadless = (() => argv.h ? false : true)()
 
+let scrollTimeout = argv.s
+
+let scrollViewportN = argv.v
+
 const PuppeteerPlugin = require('./assets/classes/puppeteerplugin-class')(dest, isMobile)
 
-var full = new PuppeteerPlugin({ launchOptions: {
-   headless: isHeadless,
-   defaultViewport: null,
-   width: 1280,
-   height: 920,
-}})
+console.log(scrollTimeout, scrollViewportN);
+
+var full = new PuppeteerPlugin({
+    launchOptions: {
+      headless: isHeadless,
+      defaultViewport: null,
+      width: 1280,
+      height: 920
+    },
+    scrollToBottom: {
+      timeout: scrollTimeout,
+      viewportN: scrollViewportN
+    }})
 
 
 
@@ -43,7 +54,7 @@ function getLocalPath(path) {
 */
 
 scrape(full_scraping).then((result) => {
-  console.log(chalk.green(`${full.summary.html.length} HTML,`), chalk.yellow(`${full.summary.css.length} CSS,`), 'and', chalk.cyan(`${full.summary.various.length} various assets`), 'have been successfully Seagalized')
+  console.log(chalk.green(`${full.summary.html.length} HTML file(s),`), chalk.yellow(`${full.summary.css.length} CSS file(s),`), 'and', chalk.cyan(`${full.summary.various.length} various asset(s)`), 'have been successfully Seagalized')
 })
 
 //scrape(simple_scraping).then((result) => console.log('the page has been saved'))

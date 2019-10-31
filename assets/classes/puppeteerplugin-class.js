@@ -16,9 +16,13 @@ module.exports = (_directory, _isMobile) => {
   return PuppeteerPlugin
 }
 
-let PuppeteerPlugin = class {
-  constructor({ launchOptions = {} } = {}) {
+class PuppeteerPlugin {
+  constructor({
+    launchOptions = {},
+		scrollToBottom = null
+  } = {}) {
     this.launchOptions = launchOptions
+    this.scrollToBottom = scrollToBottom
     this.browser = null
     this.headers = {}
     this.assetList = {
@@ -84,11 +88,15 @@ let PuppeteerPlugin = class {
 
         await page.goto(url)
 
-        var spinner = ora('Scrolling down, please wait')
-        spinner.color = 'yellow'
-        spinner.start()
-        await autoScroll(page)
-        spinner.succeed('Finished scrolling')
+        console.log(this.scrollToBottom.timeout, this.scrollToBottom.viewportN)
+
+        if(this.scrollToBottom) {
+          var spinner = ora('Scrolling down, please wait')
+          spinner.color = 'yellow'
+          spinner.start()
+					await autoScroll(page, this.scrollToBottom.timeout, this.scrollToBottom.viewportN)
+          spinner.succeed('Finished scrolling')
+				}
 
         let content = await page.content()
         content = content.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/g, '')
