@@ -16,7 +16,6 @@ let scrollViewportN = argv.v
 
 const PuppeteerPlugin = require('./assets/classes/puppeteerplugin-class')(dest, isMobile)
 
-console.log(scrollTimeout, scrollViewportN);
 
 var full = new PuppeteerPlugin({
     launchOptions: {
