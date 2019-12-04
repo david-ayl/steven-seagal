@@ -12,7 +12,7 @@ npm install
 ### Usage
 
 ```shell
-node app.js https://www.example.com -m -h
+node app.js https://www.example.com -m -h -s=20000 -v=10
 ```
 
 - -m *optional* force a mobile user-agent
