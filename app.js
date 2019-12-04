@@ -10,7 +10,7 @@ let isMobile = argv.m
 
 let isHeadless = (() => argv.h ? false : true)()
 
-let scrollTimeout = argv.s
+let scrollTimeout = argv.s || 15000
 
 let scrollViewportN = argv.v
 

@@ -88,8 +88,6 @@ class PuppeteerPlugin {
 
         await page.goto(url)
 
-        console.log(this.scrollToBottom.timeout, this.scrollToBottom.viewportN)
-
         if(this.scrollToBottom) {
           var spinner = ora('Scrolling down, please wait')
           spinner.color = 'yellow'
